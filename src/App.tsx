@@ -1,28 +1,30 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Container, Box, Heading, Text, Button } from "@chakra-ui/react";
+import { ReactComponent as Logo } from "./logo.svg";
 
 function App() {
-  const { loginWithRedirect } = useAuth0();
+  const { loginWithRedirect, logout, isLoading, isAuthenticated, user } =
+    useAuth0();
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <button onClick={() => loginWithRedirect()}>Log In</button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container py={10} textAlign="center">
+      <Box maxW={32} mx="auto">
+        <Logo />
+      </Box>
+
+      <Heading my={8}>Alert Center</Heading>
+
+      <Button
+        isLoading={isLoading}
+        onClick={isAuthenticated ? () => logout() : () => loginWithRedirect()}
+        colorScheme="purple"
+        variant={isAuthenticated ? "outline" : "solid"}
+      >
+        {isAuthenticated ? "Log out" : "Log In"}
+      </Button>
+
+      {isAuthenticated && <Text mt={4}>Hi, {user?.name}</Text>}
+    </Container>
   );
 }
 

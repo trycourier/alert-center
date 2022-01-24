@@ -4,9 +4,13 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.9.0",
+    "@chakra-ui/react": "^1.7.4",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@types/node": "^16.7.13",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
+    "framer-motion": "^5",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.1",
     "prettier": "^2.5.1",
