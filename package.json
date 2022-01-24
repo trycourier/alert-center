@@ -19,8 +19,13 @@
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"
   },
+  "devDependencies": {
+    "@vercel/node": "^1.12.1",
+    "vercel": "^23.1.2"
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "vercel dev",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
