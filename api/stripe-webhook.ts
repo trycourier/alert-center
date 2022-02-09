@@ -38,18 +38,18 @@ const stripeWebhook = wrapApiFunction(async (request) => {
       {
         type: "text" as const,
         content:
-          "There is a new successful Stripe Charge of **{amount} {currency}**",
+          "There is a new successful Stripe Charge of **{{amount}} {{currency}}**",
         format: "markdown" as const,
       },
       {
         type: "text" as const,
-        content: "Description: *{description}*",
+        content: "Description: *{{description}}*",
         format: "markdown" as const,
       },
       {
         type: "action" as const,
         content: "View Receipt",
-        href: "{receipt_url}",
+        href: "{{receipt_url}}",
         style: "button" as const,
         backgroundColor: "#9121c2",
       },
