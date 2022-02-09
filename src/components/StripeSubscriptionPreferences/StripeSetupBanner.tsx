@@ -21,7 +21,7 @@ const StripeSetupBanner = () => {
       <Input
         size="sm"
         mt={2}
-        value={`https://${process.env.REACT_APP_VERCEL_URL}/api/stripe-webhook`}
+        value={`${window.location.origin}/api/stripe-webhook`}
         variant="outline"
         readOnly
         bgColor="white"
