@@ -8,15 +8,15 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 
-interface AnnouncementProps {
+interface SetupBannerProps {
   title: string;
 }
 
-const Announcement = ({
+const SetupBanner = ({
   title,
   children,
-}: React.PropsWithChildren<AnnouncementProps>) => {
-  if (process.env.REACT_APP_HIDE_ANNOUNCEMENTS) return null;
+}: React.PropsWithChildren<SetupBannerProps>) => {
+  if (process.env.REACT_APP_HIDE_SETUP_BANNERS) return null;
 
   return (
     <Alert
@@ -35,7 +35,7 @@ const Announcement = ({
       </Box>
 
       <Tooltip
-        label="Set REACT_APP_HIDE_ANNOUNCEMENTS environment variable to hide announcements"
+        label="Set REACT_APP_HIDE_SETUP_BANNERS environment variable to hide this banner"
         placement="start-start"
         hasArrow
       >
@@ -47,4 +47,4 @@ const Announcement = ({
   );
 };
 
-export default Announcement;
+export default SetupBanner;

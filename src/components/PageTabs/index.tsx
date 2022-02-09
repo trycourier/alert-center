@@ -1,12 +1,12 @@
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
-import StripeAlertPreferences from "../StripeAlertPreferences";
+import StripeSubscriptionPreferences from "../StripeSubscriptionPreferences";
 
 const tabs = [
   {
     name: "stripe",
     title: "Stripe Charge Notifications",
-    component: StripeAlertPreferences,
+    component: StripeSubscriptionPreferences,
   },
 ];
 

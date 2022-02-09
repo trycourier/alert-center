@@ -1,10 +1,10 @@
 import { Input, Code, Link } from "@chakra-ui/react";
 
-import Announcement from "../Announcement";
+import SetupBanner from "../SetupBanner";
 
-const StripeConfigAnnouncement = () => {
+const StripeSetupBanner = () => {
   return (
-    <Announcement title="Stripe Webhook URL">
+    <SetupBanner title="Stripe Webhook URL">
       Create a{" "}
       <Link
         isExternal
@@ -26,8 +26,8 @@ const StripeConfigAnnouncement = () => {
         readOnly
         bgColor="white"
       />
-    </Announcement>
+    </SetupBanner>
   );
 };
 
-export default StripeConfigAnnouncement;
+export default StripeSetupBanner;
