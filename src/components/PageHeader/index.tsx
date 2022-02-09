@@ -25,7 +25,7 @@ const PageHeader = () => {
       </Flex>
 
       <Flex ml={{ md: "auto" }} pt={{ base: 6, md: 0 }} alignItems="center">
-        <Text mr={2}>{user && `Hi, ${user.given_name}!`}</Text>
+        <Text mr={2}>{user?.given_name && `Hi, ${user.given_name}!`}</Text>
 
         <Button
           size="sm"
