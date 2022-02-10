@@ -14,7 +14,7 @@ We are also using the new [🧱 Elemental Syntax](https://www.courier.com/docs/)
 
 - [Stripe](https://stripe.com/) `charge.succeeded` events
 - _more coming soon..._
-- _...why not [build](customization) your own one?_
+- _...why not [build](#customization) your own one?_
 
 ## Prerequisites
 
