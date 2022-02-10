@@ -8,6 +8,8 @@ This project uses the Courier [Profiles API](https://www.courier.com/docs/refere
 
 We are also using the new [🧱 Elemental Syntax](https://www.courier.com/docs/) for the message content, which is a new spec allowing to easily construct complex message layouts without compromising on the flexibility.
 
+[**See the live demo**](https://alert-center.vercel.app/)
+
 ### Currently Supported Services
 
 - [Stripe](https://stripe.com/) `charge.succeeded` events
