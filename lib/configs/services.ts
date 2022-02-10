@@ -1,9 +1,11 @@
 import { Method } from "./methods";
 
+// A helper function to let TypeScript correctly infer types
 const createServiceMethods = <Name extends string>(
-  events: Record<Name, Method[]>
-) => events;
+  serviceMethods: Record<Name, Method[]>
+) => serviceMethods;
 
+// Each Alert service may support only a limited set of Notification methods
 export const serviceMethods = createServiceMethods({
   stripe: ["email", "sms", "slack"],
 });

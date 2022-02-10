@@ -1,6 +1,12 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { CustomError } from "ts-custom-error";
 
+/**
+ * Create a custom error class for the API to allow specifying response
+ * status code with error
+ *
+ * Example: throw new ApiError("Method Not Allowed", 405)
+ */
 export class ApiError extends CustomError {
   statusCode?: number;
 
@@ -10,11 +16,17 @@ export class ApiError extends CustomError {
   }
 }
 
+/**
+ * Will wrap all API functions with this helper function to handle errors
+ * and responses automatically
+ *
+ * @param callback a Vercel API function to wrap
+ */
 const wrapApiFunction =
-  (fn: (request: VercelRequest, response: VercelResponse) => any) =>
+  (callback: (request: VercelRequest, response: VercelResponse) => any) =>
   async (request: VercelRequest, response: VercelResponse) => {
     try {
-      await fn(request, response);
+      await callback(request, response);
 
       if (!response.writableEnded) {
         response.status(204).end();

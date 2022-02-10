@@ -2,6 +2,8 @@ import Stripe from "stripe";
 import { CourierClient } from "@trycourier/courier";
 import { AuthenticationClient } from "auth0";
 
+// Initialize all the Integration clients with the auth tokens
+
 export const stripe = new Stripe(process.env.STRIPE_SECRET || "", {
   apiVersion: "2020-08-27",
 });
