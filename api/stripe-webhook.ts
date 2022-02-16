@@ -39,7 +39,7 @@ const content = {
       content: "View Receipt",
       href: "{{receipt_url}}",
       style: "button" as const,
-      backgroundColor: "#9121c2",
+      background_color: "#9121c2",
     },
   ],
 };
