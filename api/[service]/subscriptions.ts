@@ -16,7 +16,7 @@ const pathSchema = Yup.object().shape({
 
 // Helper function to build a Courier list id from Alert Service and Notification Method
 export const listIdFromServiceAndMethod = (service: Service, method: Method) =>
-  ["alerts", service, method].join(".");
+  ["alert", service, method].join(".");
 
 /**
  * @api {get/post/delete} /api/:service/subscriptions Wrapper for Courier List Subscription API

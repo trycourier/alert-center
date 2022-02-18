@@ -1,10 +1,8 @@
 import type { VercelRequest } from "@vercel/node";
-import type { AxiosError } from "axios";
 
-import { ApiError } from "../lib/wrapApiFunction";
-import { auth0 } from "../lib/integrationClients";
-
-const isAxiosError = (error: any): error is AxiosError => error.isAxiosError;
+import { ApiError } from "./wrapApiFunction";
+import { auth0 } from "./integrationClients";
+import isAxiosError from "./isAxiosError";
 
 /**
  * Authorize auth0 user with Bearer token and return the user profile

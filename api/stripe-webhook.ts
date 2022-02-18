@@ -6,6 +6,7 @@ import { stripe, courier } from "../lib/integrationClients";
 import { methodConfigs } from "../lib/configs/methods";
 import { serviceMethods } from "../lib/configs/services";
 import { listIdFromServiceAndMethod } from "./[service]/subscriptions";
+import isAxiosError from "../lib/isAxiosError";
 
 // The notification content using Courier's Elemental Syntax
 const content = {
@@ -79,30 +80,44 @@ const stripeWebhook = wrapApiFunction(async (request) => {
 
   await Promise.all(
     // Go through all the supported Stripe notification methods
-    serviceMethods.stripe.map((method) => {
+    serviceMethods.stripe.map(async (method) => {
       const { provider, channel } = methodConfigs[method];
 
-      return courier.send({
-        message: {
-          // Send the notification to the list constructed from provider and method
-          to: { list_id: listIdFromServiceAndMethod("stripe", method) },
-          // Route the message to the channel for the notification method
-          routing: {
-            method: "all",
-            channels: [channel],
-          },
-          // Configure the routed channel to the provider we'd like to use
-          channels: {
-            [channel]: {
-              providers: [provider],
+      // construct list_id constructed from provider and method
+      const listId = listIdFromServiceAndMethod("stripe", method);
+
+      try {
+        await courier.send({
+          message: {
+            // Send the notification to the list
+            to: { list_id: listId },
+            // Route the message to the channel for the notification method
+            routing: {
+              method: "all",
+              channels: [channel],
             },
+            // Configure the routed channel to the provider we'd like to use
+            channels: {
+              [channel]: {
+                providers: [provider],
+              },
+            },
+            // Using Elemental Syntax to build the notification content
+            content,
+            // Using the data we extracted from the Stripe event
+            data,
           },
-          // Using Elemental Syntax to build the notification content
-          content,
-          // Using the data we extracted from the Stripe event
-          data,
-        },
-      });
+        });
+      } catch (error) {
+        if (
+          isAxiosError(error) &&
+          error.response?.data?.message?.includes("was not found")
+        ) {
+          return;
+        }
+
+        throw error;
+      }
     })
   );
 });
