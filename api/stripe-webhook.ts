@@ -5,7 +5,6 @@ import wrapApiFunction, { ApiError } from "../lib/wrapApiFunction";
 import { stripe, courier } from "../lib/integrationClients";
 import { methodConfigs } from "../lib/configs/methods";
 import { serviceMethods } from "../lib/configs/services";
-import paginateResults from "../lib/paginateResults";
 import { listIdFromServiceAndMethod } from "./[service]/subscriptions";
 
 // The notification content using Courier's Elemental Syntax
@@ -80,92 +79,32 @@ const stripeWebhook = wrapApiFunction(async (request) => {
 
   await Promise.all(
     // Go through all the supported Stripe notification methods
-    serviceMethods.stripe.map(async (method) => {
+    serviceMethods.stripe.map((method) => {
       const { provider, channel } = methodConfigs[method];
-      // Construct the list id for the notification method
-      const listId = listIdFromServiceAndMethod("stripe", method);
-      // Get all the recipients subscribed to the list
-      const listSubscriptions = await paginateResults((cursor) =>
-        courier.lists.getSubscriptions(listId, { cursor })
-      );
 
-      return Promise.all(
-        // Send the notification to each recipient in the list
-        listSubscriptions.map((subscription) => {
-          return courier.send({
-            message: {
-              to: {
-                user_id: subscription.recipientId,
-              },
-              // Route the message to the channel for the notification method
-              routing: {
-                method: "all",
-                channels: [channel],
-              },
-              // Configure the routed channel to the provider we'd like to use
-              channels: {
-                [channel]: {
-                  providers: [provider],
-                },
-              },
-              // Using Elemental Syntax to build the notification content
-              content,
-              // Using the data we extracted from the Stripe event
-              data,
+      return courier.send({
+        message: {
+          // Send the notification to the list constructed from provider and method
+          to: { list_id: listIdFromServiceAndMethod("stripe", method) },
+          // Route the message to the channel for the notification method
+          routing: {
+            method: "all",
+            channels: [channel],
+          },
+          // Configure the routed channel to the provider we'd like to use
+          channels: {
+            [channel]: {
+              providers: [provider],
             },
-          });
-        })
-      );
-
-      // We can also optimize this by sending the notification to an array of recipients with a
-      // single call, but it's not supported yet
-      //
-      // return courier.send({
-      //   message: {
-      //     to: listSubscriptions.map((subscription) => ({
-      //       user_id: subscription.recipientId,
-      //     })),
-      //     routing: {
-      //       method: "all",
-      //       channels: [channel],
-      //     },
-      //     channels: {
-      //       [channel]: {
-      //         providers: [provider],
-      //       },
-      //     },
-      //     content,
-      //     data,
-      //   },
-      // });
+          },
+          // Using Elemental Syntax to build the notification content
+          content,
+          // Using the data we extracted from the Stripe event
+          data,
+        },
+      });
     })
   );
-
-  // By far the most optimized approach would be to directly send the notification to the list,
-  // without having to fetch the subscribers first. However, this is not supported yet either
-  //
-  // await Promise.all(
-  //   serviceMethods.stripe.map((method) => {
-  //     const { provider, channel } = methodConfigs[method];
-
-  //     return courier.send({
-  //       message: {
-  //         to: { list_id: listIdFromServiceAndMethod("stripe", method) },
-  //         routing: {
-  //           method: "all",
-  //           channels: [channel],
-  //         },
-  //         channels: {
-  //           [channel]: {
-  //             providers: [provider],
-  //           },
-  //         },
-  //         content,
-  //         data,
-  //       },
-  //     });
-  //   })
-  // );
 });
 
 export default stripeWebhook;
