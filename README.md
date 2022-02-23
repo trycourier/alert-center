@@ -6,7 +6,7 @@ alerts on their preferred channels.
 
 This project uses the Courier [Profiles API](https://www.courier.com/docs/reference/profiles/) to store user info, [Lists API](https://www.courier.com/docs/reference/lists/list/) to save user subscriptions, and the brand new [✨ Send API](https://www.courier.com/docs/reference/send/message/) to send the alerts to the subscribers with the _inline_ message content and routing generated programmatically, instead of having to create a template in the [Courier App](https://app.courier.com/) first, and providing the template id.
 
-We are also using the new [🧱 Elemental Syntax](https://www.courier.com/docs/) for the message content, which is a new spec allowing to easily construct complex message layouts without compromising on the flexibility.
+We are also using the new [🧱 Elemental Syntax](https://www.courier.com/docs/elemental) for the message content, which is a new spec allowing to easily construct complex message layouts without compromising on the flexibility.
 
 [**See the live demo**](https://alert-center.vercel.app/)
 
